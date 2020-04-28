@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:melodyapp/screens/adapters/models/NearEvent.dart';
+import 'package:melodyapp/screens/adapters/models/UpcomingEvent.dart';
 import 'package:melodyapp/screens/adapters/viewholders/NearEventListItem.dart';
+import 'package:melodyapp/screens/adapters/viewholders/UpcomingEventListItem.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -41,7 +43,7 @@ class _FeedPageState extends State<FeedPage> {
               /**
                * Horizontal List of Styles
                */
-              getEventsList(),
+              getNearEventsList(),
               /**
                * Discover your location
                */
@@ -57,7 +59,9 @@ class _FeedPageState extends State<FeedPage> {
                         fontSize: 28
                     )
                 ),
-              )
+              ),
+
+              getUpcomingEventsList()
             ]
           )),
     );
@@ -121,19 +125,19 @@ Widget getBannerPlain() {
   );
 }
 
-Widget getEventsList() {
+Widget getNearEventsList() {
   return Container(
     height: 125.0,
     child: CustomScrollView(
       scrollDirection: Axis.horizontal,
       slivers: <Widget>[
-        getSliverNearEventsList(NearEvent.mockNearEventsData)
+        mapSliverNearEventsList(NearEvent.mockNearEventsData)
       ],
     ),
   );
 }
 
-Widget getSliverNearEventsList(List<NearEvent> events) {
+Widget mapSliverNearEventsList(List<NearEvent> events) {
   var listOfSlivers = List<Widget>();
   events.forEach((f) => listOfSlivers.add(NearEventListItem(
       id: f.id,
@@ -176,5 +180,32 @@ Widget getDiscoverBanner() {
             )
         )
     ),
+  );
+}
+
+Widget getUpcomingEventsList() {
+  return Container(
+    height: 125.0,
+    child: CustomScrollView(
+      scrollDirection: Axis.vertical,
+      slivers: <Widget>[
+        mapUpcomingNearEventsList(UpcomingEvent.mockUpcomingEventsData)
+      ],
+    ),
+  );
+}
+
+Widget mapUpcomingNearEventsList(List<UpcomingEvent> events) {
+  var listOfSlivers = List<Widget>();
+  events.forEach((f) => listOfSlivers.add(UpcomingEventListItem(
+      id: f.id,
+      icon: f.icon,
+      title: f.title,
+      name: f.name,
+      address: f.address,
+  )));
+
+  return SliverList(
+    delegate: SliverChildListDelegate(listOfSlivers),
   );
 }
