@@ -13,7 +13,6 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         elevation: 0,
@@ -42,13 +41,21 @@ class _FeedPageState extends State<FeedPage> {
               /**
                * Horizontal List of Styles
                */
+              getEventsList(),
+              /**
+               * Discover your location
+               */
+              getDiscoverBanner(),
+
               Container(
-                height: 125.0,
-                child: CustomScrollView(
-                  scrollDirection: Axis.horizontal,
-                  slivers: <Widget>[
-                    getSliverNearEventsList(NearEvent.mockNearEventsData)
-                  ],
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 24),
+                child: Text("Upcoming events",
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28
+                    )
                 ),
               )
             ]
@@ -107,18 +114,21 @@ Widget getBannerPlain() {
                       )
                     ]
                 ),
-//                          Container(
-//                            padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
-//                            child: Center(
-//                              child: Text(
-//                                "this data generated depends on nearest location",
-//                                style: TextStyle(color: Colors.white, fontSize: 12),
-//                              ),
-//                            ),
-//                          )
               ],
             )
         )
+    ),
+  );
+}
+
+Widget getEventsList() {
+  return Container(
+    height: 125.0,
+    child: CustomScrollView(
+      scrollDirection: Axis.horizontal,
+      slivers: <Widget>[
+        getSliverNearEventsList(NearEvent.mockNearEventsData)
+      ],
     ),
   );
 }
@@ -133,5 +143,38 @@ Widget getSliverNearEventsList(List<NearEvent> events) {
   
   return SliverList(
     delegate: SliverChildListDelegate(listOfSlivers),
+  );
+}
+
+Widget getDiscoverBanner() {
+  return Container(
+    height: 250.0,
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey,
+          blurRadius: 75.0, // soften the shadow
+          spreadRadius: 1, //extend the shadow
+          offset: Offset(
+            0.0, // Move to right 10  horizontally
+            25.0, // Move to bottom 5 Vertically
+          ),
+        )
+      ],
+    ),
+    child: new Container(
+        margin: EdgeInsets.all(16.0),
+        decoration: new BoxDecoration(
+            color: Colors.blueAccent,
+            borderRadius: new BorderRadius.all(
+                const Radius.circular(16.0)
+            )
+        ),
+        child: Container(
+            child: Center(
+              child: Text("Imagine the Map", style: TextStyle(color: Colors.white),),
+            )
+        )
+    ),
   );
 }
