@@ -4,6 +4,7 @@ import 'package:melodyapp/screens/adapters/models/NearEvent.dart';
 import 'package:melodyapp/screens/adapters/models/UpcomingEvent.dart';
 import 'package:melodyapp/screens/adapters/viewholders/NearEventListItem.dart';
 import 'package:melodyapp/screens/adapters/viewholders/UpcomingEventListItem.dart';
+import 'package:melodyapp/utils/HexColor.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -40,87 +41,24 @@ class _FeedPageState extends State<FeedPage> {
           ],
         ),
       ),
-      backgroundColor: Colors.white60,
+      backgroundColor: HexColor("#d4dae5"),
       body: SafeArea(
-          child: Stack(
-        children: <Widget>[
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(child: getBannerPlain()),
-              SliverToBoxAdapter(child: getNearEventsList()),
-              SliverToBoxAdapter(child: getMapBanner()),
-              SliverToBoxAdapter(child: getTextViewUpcomingEvents()),
-              getSliverUpcomingEventsList(UpcomingEvent.paymentMockData),
-              SliverToBoxAdapter(child:
-                Container(
-                  height: 80,
-                  margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  decoration: myBoxDecoration(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text("Didn't find the event",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal
-                                ),
-                              ),
-                              Text("you were searching for?",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 8),
-                                child: Text("Create your own!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.only(left: 0),
-                          child: Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.blueAccent,
-                            size: 42,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              )
-              ,
-            ],
-          ),
-        ],
-      )),
+        child: Stack(
+          children: <Widget>[
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(child: getBannerPlain()),
+                SliverToBoxAdapter(child: getNearEventsList()),
+                SliverToBoxAdapter(child: getRoundedHeader()),
+                SliverToBoxAdapter(child: getMapBanner()),
+                SliverToBoxAdapter(child: getRoundedBottom()),
+                getSliverUpcomingEventsList(UpcomingEvent.paymentMockData),
+                SliverToBoxAdapter(child: getLayoutCreateYourEvent())
+              ],
+            ),
+          ],
+        )
+      ),
     );
   }
 }
@@ -140,6 +78,7 @@ BoxDecoration myBoxDecoration() {
 Widget getBannerPlain() {
   return Container(
     height: 150.0,
+    color: HexColor("#f6f8ff"),
     child: new Container(
       margin: EdgeInsets.all(16.0),
       decoration: new BoxDecoration(
@@ -190,6 +129,7 @@ Widget getBannerPlain() {
 Widget getNearEventsList() {
   return Container(
     height: 125.0,
+    color: HexColor("#f6f8ff"),
     child: CustomScrollView(
       scrollDirection: Axis.horizontal,
       slivers: <Widget>[mapSliverNearEventsList(NearEvent.mockNearEventsData)],
@@ -204,6 +144,24 @@ Widget mapSliverNearEventsList(List<NearEvent> events) {
 
   return SliverList(
     delegate: SliverChildListDelegate(listOfSlivers),
+  );
+}
+
+Widget getRoundedHeader() {
+  return Container(
+    height: 50,
+    decoration: new BoxDecoration(
+      color: HexColor("#f6f8ff"),
+      borderRadius: new BorderRadius.only(bottomLeft: const Radius.circular(90))
+    ),
+    child: Center(
+      child: Text("Find an event by category",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black87, fontSize: 15, fontWeight: FontWeight.bold
+        )
+      )
+    ),
   );
 }
 
@@ -241,12 +199,86 @@ Widget getMapBanner() {
   );
 }
 
-Widget getTextViewUpcomingEvents() {
-  return Padding(
-      padding: EdgeInsets.only(left: 16),
+Widget getRoundedBottom() {
+  return Container(
+    height: 50,
+    decoration: new BoxDecoration(
+      color: HexColor("#f6f8ff"),
+      borderRadius: new BorderRadius.only(topLeft: const Radius.circular(90))
+    ),
+    child: Center(
       child: Text(
         "Upcoming Events",
         style: TextStyle(
-            color: Colors.black87, fontSize: 28, fontWeight: FontWeight.bold),
-      ));
+          color: Colors.black87, fontSize: 15, fontWeight: FontWeight.bold
+        ),
+      )
+    ),
+  );
+}
+
+Widget getLayoutCreateYourEvent() {
+  return Container(
+    height: 80,
+    margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+    decoration: myBoxDecoration(),
+    child: Row(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Container(
+            alignment: Alignment.centerRight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Didn't find the event",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                Text("you were searching for?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text("Create your own!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(left: 0),
+            child: Icon(
+              Icons.add_circle_outline,
+              color: Colors.blueAccent,
+              size: 42,
+            ),
+          ),
+        )
+      ],
+    ),
+  );
 }
