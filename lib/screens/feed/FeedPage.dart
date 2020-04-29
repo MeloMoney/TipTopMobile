@@ -51,12 +51,90 @@ class _FeedPageState extends State<FeedPage> {
               SliverToBoxAdapter(child: getMapBanner()),
               SliverToBoxAdapter(child: getTextViewUpcomingEvents()),
               getSliverUpcomingEventsList(UpcomingEvent.paymentMockData),
+              SliverToBoxAdapter(child:
+                Container(
+                  height: 80,
+                  margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  decoration: myBoxDecoration(),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text("Didn't find the event",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal
+                                ),
+                              ),
+                              Text("you were searching for?",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 8),
+                                child: Text("Create your own!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.only(left: 0),
+                          child: Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.blueAccent,
+                            size: 42,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              )
+              ,
             ],
           ),
         ],
       )),
     );
   }
+}
+
+BoxDecoration myBoxDecoration() {
+  return BoxDecoration(
+    border: Border.all(
+      width: 2.0,
+      color: Colors.blueAccent
+    ),
+    borderRadius: BorderRadius.all(
+      Radius.circular(16.0)
+    ),
+  );
 }
 
 Widget getBannerPlain() {
