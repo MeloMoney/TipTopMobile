@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:melodyapp/screens/adapters/models/Hint.dart';
 import 'package:melodyapp/screens/adapters/models/NearEvent.dart';
 import 'package:melodyapp/screens/adapters/models/UpcomingEvent.dart';
+import 'package:melodyapp/screens/adapters/viewholders/HintListItem.dart';
 import 'package:melodyapp/screens/adapters/viewholders/NearEventListItem.dart';
 import 'package:melodyapp/screens/adapters/viewholders/UpcomingEventListItem.dart';
 import 'package:melodyapp/utils/HexColor.dart';
@@ -50,10 +52,12 @@ class _FeedPageState extends State<FeedPage> {
                 SliverToBoxAdapter(child: getBannerPlain()),
                 SliverToBoxAdapter(child: getNearEventsList()),
                 SliverToBoxAdapter(child: getRoundedHeader()),
-                SliverToBoxAdapter(child: getMapBanner()),
-                SliverToBoxAdapter(child: getRoundedBottom()),
+                SliverToBoxAdapter(child: getHintList(context)),
+                SliverToBoxAdapter(child: getRoundedUpcomingTop()),
                 getSliverUpcomingEventsList(UpcomingEvent.paymentMockData),
-                SliverToBoxAdapter(child: getLayoutCreateYourEvent())
+                SliverToBoxAdapter(child: getRoundedUpcomingBottom()),
+                SliverToBoxAdapter(child: getLayoutCreateYourEvent()),
+                SliverToBoxAdapter(child: Container(height: 16))
               ],
             ),
           ],
@@ -181,25 +185,34 @@ Widget getSliverUpcomingEventsList(List<UpcomingEvent> events) {
   );
 }
 
-Widget getMapBanner() {
+Widget getHintList(BuildContext context) {
   return Container(
-    height: 250.0,
-    child: new Container(
-        margin: EdgeInsets.all(16.0),
-        decoration: new BoxDecoration(
-            color: Colors.blueAccent,
-            borderRadius: new BorderRadius.all(const Radius.circular(16.0))),
-        child: Container(
-            child: Center(
-          child: Text(
-            "Imagine the Map",
-            style: TextStyle(color: Colors.white),
-          ),
-        ))),
+    height: 200.0,
+    width: MediaQuery.of(context).size.width * 0.65,
+    child: CustomScrollView(
+      scrollDirection: Axis.horizontal,
+      slivers: <Widget>[mapSliverHintList(Hint.mockHintData)],
+    ),
   );
 }
 
-Widget getRoundedBottom() {
+Widget mapSliverHintList(List<Hint> events) {
+  var listOfSlivers = List<Widget>();
+  events.forEach((f) => listOfSlivers.add(
+    HintListItem(
+      id: f.id,
+      icon: f.icon,
+      title: f.title,
+      description: f.description
+    )
+  ));
+
+  return SliverList(
+    delegate: SliverChildListDelegate(listOfSlivers),
+  );
+}
+
+Widget getRoundedUpcomingTop() {
   return Container(
     height: 50,
     decoration: new BoxDecoration(
@@ -213,6 +226,16 @@ Widget getRoundedBottom() {
           color: Colors.black87, fontSize: 15, fontWeight: FontWeight.bold
         ),
       )
+    ),
+  );
+}
+
+Widget getRoundedUpcomingBottom() {
+  return Container(
+    height: 50,
+    decoration: new BoxDecoration(
+      color: HexColor("#f6f8ff"),
+      borderRadius: new BorderRadius.only(bottomLeft: const Radius.circular(90))
     ),
   );
 }
